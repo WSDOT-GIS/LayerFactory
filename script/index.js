@@ -22,16 +22,26 @@
 
 	}
 
-
 	map = new esri.Map("map", {
-		basemap: "osm"
+		basemap: "topo"
 	});
+
+	// If possible, get the client's current location and zoom the map.
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			var x, y;
+			x = position.coords.longitude;
+			y = position.coords.latitude;
+			
+			map.centerAndZoom(new esri.geometry.Point(x, y), 13);
+		}, function (error) {
+		});
+	}
 
 	
 	agsServiceDialog = new Dialog({
 		title: "Add a map service",
-		content: "<label for='agsUrlInput'>ArcGIS Map Service URL</label><input id='agsUrlInput' type='url' /><button id='addAgsLayerButton'>Add</button>",
-		resizable: true
+		content: dom.byId("dialog")
 	});
 
 	agsUrlInput = dom.byId("agsUrlInput");
