@@ -43,6 +43,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <Content Include="script\jsapi_vsdoc12_v33.js" />
+    <Content Include="script\wsdot\LayerFactory.js" />
     <None Include="README.md" />
     <Content Include="script\index.js" />
     <Content Include="style\index.css" />

@@ -1,26 +1,18 @@
-﻿require(["dojo/on", "dojo/dom", "dijit/Dialog", "esri/map", "esri/layers/agsdynamic", "esri/layers/featureLayer", "esri/layers/osm", "dojo/domReady!"], function (on, dom, Dialog) {
-	var map, agsServiceDialog, agsUrlInput;
+﻿/*global require, esri*/
+/*jslint browser:true*/
 
-	function addAgsLayer(url) {
-		/// <summary>Adds an ArcGIS Service layer to a map.</summary>
-		/// <param name="url" type="String">URL to a map service.</param>
+/// <reference path="jsapi_vsdoc12_v33.js" />
+require(["dojo/on", "dojo/dom", "dijit/Dialog", "wsdot/LayerFactory", "esri/map", "esri/layers/osm", "dojo/domReady!"], function (on, dom, Dialog, LayerFactory) {
+	"use strict";
+	var map, agsServiceDialog, agsUrlInput, layerFactory;
 
-		var mapServerRe, featureLayerRe, layer;
-		mapServerRe = /MapServer\/?$/i;
-		featureLayerRe = /MapServer\/\d+\/?$/i;
-
-		if (mapServerRe.test(url)) {
-			layer = new esri.layers.ArcGISDynamicMapServiceLayer(url);
-		} else if (featureLayerRe.test(url)) {
-			layer = new esri.layers.FeatureLayer(url);
-		}
+	layerFactory = new LayerFactory();
+	on(layerFactory, "layerCreate", function (options) {
+		var layer = options.layer;
 		if (layer) {
 			map.addLayer(layer);
 		}
-
-		return layer;
-
-	}
+	});
 
 	map = new esri.Map("map", {
 		basemap: "topo"
@@ -35,6 +27,11 @@
 			
 			map.centerAndZoom(new esri.geometry.Point(x, y), 13);
 		}, function (error) {
+			if (console) {
+				if (console.error) {
+					console.error(error);
+				}
+			}
 		});
 	}
 
@@ -52,7 +49,11 @@
 	});
 
 	on(dom.byId("addAgsLayerButton"), "click", function () {
-		addAgsLayer(agsUrlInput.value);
+		var url;
+		url = agsUrlInput.value;
+		layerFactory.createLayer({
+			url: url
+		});
 		agsServiceDialog.hide();
 	});
 });
