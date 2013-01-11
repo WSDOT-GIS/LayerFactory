@@ -14,6 +14,18 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 				layer: layer
 			});
 		},
+		_triggerError: function(error) {
+			this.emit("layerCreate", {
+				error: error
+			});
+		},
+		
+		/** 
+		* @param {Object} options The options provided will vary depending on the type of layer to be created.
+		* @param {String} [options.url] The URL used to define service types such as ArcGISTiledMapServiceLayer, ArcGISDynamicServiceLayer, and ArcGISImageServiceLayer.
+		* @param {Object} [options.options] Layer constructors that take an options parameter can have those options provided via this property.
+		* @param {String} [options.type] The name of the type, for situations where the type cannot be determined by a URL, or if a URL is not required (e.g., OpenStreetMapLayer.).
+		*/
 		createLayer: function (options) {
 			var self = this, mapServerRe, featureLayerRe, imageServerRe, url;
 
@@ -52,6 +64,7 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 							});
 						}
 					}, function (error) {
+						
 					});
 				} else if (featureLayerRe.test(url)) {
 					require(["esri/layers/FeatureLayer"], function () {
@@ -66,6 +79,15 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 						self._triggerLayerCreate(layer);
 					});
 				}
+			} else if (options.type) {
+				if (/^OpenStreetMap$/i.test(options.type)) {
+					require(["esri/layers/osm"], function () {
+						var layer;
+						layer = new esri.layers.OpenStreetMapLayer(options.options);
+						self._triggerLayerCreate(layer);
+					});
+				}
+				
 			}
 		}
 	});
