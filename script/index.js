@@ -2,7 +2,7 @@
 /*jslint browser:true*/
 
 /// <reference path="jsapi_vsdoc12_v33.js" />
-require(["dojo/on", "dojo/dom", "dijit/Dialog", "wsdot/LayerFactory", "esri/map", "esri/layers/osm", "dojo/domReady!"], function (on, dom, Dialog, LayerFactory) {
+require(["dojo/on", "dojo/dom", "dijit/Dialog", "wsdot/LayerFactory", "esri/map", "dojo/domReady!"], function (on, dom, Dialog, LayerFactory) {
 	"use strict";
 	var map, agsServiceDialog, agsUrlInput, layerFactory;
 

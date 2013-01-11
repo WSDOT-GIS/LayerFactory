@@ -15,13 +15,14 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 			});
 		},
 		createLayer: function (options) {
-			var self = this, mapServerRe, featureLayerRe, url;
+			var self = this, mapServerRe, featureLayerRe, imageServerRe, url;
 
 			if (options.url) {
 				url = options.url;
 
 				mapServerRe = /MapServer\/?$/i;
 				featureLayerRe = /((MapServer\/\d+)|(FeatureServer))\/?$/i;
+				imageServerRe = /ImageServer\/?/i;
 
 
 				// Create a different layer type based on the URL.
@@ -56,6 +57,12 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 					require(["esri/layers/FeatureLayer"], function () {
 						var layer;
 						layer = new esri.layers.FeatureLayer(url);
+						self._triggerLayerCreate(layer);
+					});
+				} else if (imageServerRe.test(url)) {
+					require(["esri/layers/agsimageservice"], function () {
+						var layer;
+						layer = new esri.layers.ArcGISImageServiceLayer(url);
 						self._triggerLayerCreate(layer);
 					});
 				}
