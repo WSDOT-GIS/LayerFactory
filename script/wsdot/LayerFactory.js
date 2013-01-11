@@ -1,6 +1,7 @@
 ﻿/*global define, esri*/
 /*jslint nomen:true*/
-define(["require", "dojo/_base/declare", "dojo/Evented"], function (require, declare, Evented) {
+/// <reference path="../jsapi_vsdoc12_v33.js" />
+define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], function (require, declare, Evented) {
 	"use strict";
 	var layerFactory;
 
@@ -20,23 +21,37 @@ define(["require", "dojo/_base/declare", "dojo/Evented"], function (require, dec
 				url = options.url;
 
 				mapServerRe = /MapServer\/?$/i;
-				featureLayerRe = /MapServer\/\d+\/?$/i;
+				featureLayerRe = /((MapServer\/\d+)|(FeatureServer))\/?$/i;
 
 
+				// Create a different layer type based on the URL.
 				if (mapServerRe.test(url)) {
-					if (options.tiled) {
-						require(["esri/layers/agstiled"], function () {
-							var layer;
-							layer = new esri.layers.ArcGISTiledMapServiceLayer(url);
-							self._triggerLayerCreate(layer);
-						});
-					} else {
-						require(["esri/layers/agsdynamic"], function () {
-							var layer;
-							layer = new esri.layers.ArcGISDynamicMapServiceLayer(url);
-							self._triggerLayerCreate(layer);
-						});
-					}
+					// Query the map service to see if it is a tiled map service. (We cannot determine this based on the URL alone.)
+					esri.request({
+						url: url,
+						content: {
+							f: "json"
+						},
+						callbackParamName: "callback",
+						handleAs: "json"
+					}).then(function (response) {
+						if (response.singleFusedMapCache) {
+							// Create a tile map service layer.
+							require(["esri/layers/agstiled"], function () {
+								var layer;
+								layer = new esri.layers.ArcGISTiledMapServiceLayer(url);
+								self._triggerLayerCreate(layer);
+							});
+						} else {
+							// Create a dynamic map service layer.
+							require(["esri/layers/agsdynamic"], function () {
+								var layer;
+								layer = new esri.layers.ArcGISDynamicMapServiceLayer(url);
+								self._triggerLayerCreate(layer);
+							});
+						}
+					}, function (error) {
+					});
 				} else if (featureLayerRe.test(url)) {
 					require(["esri/layers/FeatureLayer"], function () {
 						var layer;
