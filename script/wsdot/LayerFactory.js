@@ -64,7 +64,7 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 							});
 						}
 					}, function (error) {
-						
+						self._triggerError(error);
 					});
 				} else if (featureLayerRe.test(url)) {
 					require(["esri/layers/FeatureLayer"], function () {
@@ -86,6 +86,51 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 						layer = new esri.layers.OpenStreetMapLayer(options.options);
 						self._triggerLayerCreate(layer);
 					});
+				} else if (/^MapQuest/i.test(options.type)) { // /^MapQuest\s?((O(?:pen)?S(?:treet)?M(?:ap)?)|(Open\s?Aerial))$/i.test(options.type)) {
+					require(["esri/layers/WebTiledLayer"], function () {
+						var layer, subdomains = ["otile1", "otile2", "otile3", "otile4"], ext = "png";
+						if (/Aerial/i.test(options.type)) {
+							layer = new esri.layers.WebTiledLayer("http://${subDomain}.mqcdn.com/tiles/1.0.0/sat/${level}/${col}/${row}." + ext, {
+								"id": "mapQuestOpenAerial",
+								"subDomains": subdomains,
+								"copyright": 'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency, Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+							});
+							self._triggerLayerCreate(layer);
+						} else {
+							layer = new esri.layers.WebTiledLayer("http://${subDomain}.mqcdn.com/tiles/1.0.0/map/${level}/${col}/${row}." + ext, {
+								"id": "mapQuestOSM",
+								"subDomains": subdomains,
+								"copyright": '© OpenStreetMap contributors, Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+							});
+							self._triggerLayerCreate(layer);
+						}
+					});
+				} else if (/^OpenCycleMap/i.test(options.type)) {
+					require(["esri/layers/WebTiledLayer"], function () {
+						var subdomains = ["a", "b", "c"], urlTemplate, id, layer;
+
+						// Set the URL template.
+						if (/Transport/i.test(options.type)) {
+							urlTemplate = "http://${subDomain}.tile2.opencyclemap.org/transport/${level}/${col}/${row}.png";
+							id = "openCycleMapTransport";
+						} else if (/Landscape/i.test(options.type)) {
+							urlTemplate = "http://${subDomain}.tile3.opencyclemap.org/landscape/${level}/${col}/${row}.png";
+							id = "openCycleMapLandscape";
+						} else {
+							urlTemplate = "http://${subDomain}.tile.opencyclemap.org/cycle/${level}/${col}/${row}.png";
+							id = "openCycleMap";
+						}
+
+						layer = new esri.layers.WebTiledLayer(urlTemplate, {
+							id: id,
+							subDomains: subdomains,
+							copyright: '© OpenStreetMap contributors'
+						});
+
+						self._triggerLayerCreate(layer);
+
+					});
+
 				}
 				
 			}
