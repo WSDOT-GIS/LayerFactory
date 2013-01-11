@@ -42,7 +42,6 @@ require(["dojo/on", "dojo/dom", "dojo/query", "dijit/Dialog", "wsdot/LayerFactor
 	});
 
 	agsUrlInput = dom.byId("agsUrlInput");
-	agsUrlInput.value = "http://faaservices-1551414968.us-east-1.elb.amazonaws.com/ArcGIS/rest/services/201101_AirportsGIS_BH/Obstacles/MapServer";
 
 	// When the add data button on the map is clicked, the add data dialog will be shown.
 	on(dom.byId("addDataButton"), "click", function () {
