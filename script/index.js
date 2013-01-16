@@ -70,15 +70,13 @@
 			}
 		});
 
-		// When one of the predefined buttons is clicked, the layer type corresponding to that button will be added to the map.
-		on(query("#predefined > button"), "click", function () {
-			var button = this;
-			if (button.value) {
-				layerFactory.createLayer({
-					type: button.value
-				});
-			}
+		// When the predefined layer button is clicked, the layer selected in the list will be added to the map.
+		$("#addPredefinedLayerButton").click(function () {
+			layerFactory.createLayer({
+				type: $("#predefinedLayerSelect :selected").val()
+			});
 			agsServiceDialog.dialog("close");
+			
 		});
 
 		$("#layersButton").click(function () {

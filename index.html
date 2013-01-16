@@ -28,12 +28,19 @@
 			<label for='agsUrlInput'>ArcGIS Map Service URL</label><input id='agsUrlInput' type='url' placeholder="Enter a URL here" /><button id='addAgsLayerButton'>Add</button>
 		</div>
 		<div id="predefined">
-			<button id="osmButton" value="OpenStreetMap">OpenStreetMap</button>
-			<button id="mqOsmButton" value="MapQuest OSM">MapQuest OSM</button>
-			<button id="mqOAButton" value="MapQuest OpenAerial">MapQuest Open Aerial</button>
-			<button id="ocmButton" value="OpenCycleMap">OpenCycleMap</button>
-			<button id="ocmTransport" value="OpenCycleMap Transport">OpenCycleMap Transport</button>
-			<button id="ocmLandscape" value="OpenCycleMap Landscape">OpenCycleMap Landscape</button>
+			<select id="predefinedLayerSelect">
+				<option value="OpenStreetMap">OpenStreetMap</option>
+				<optgroup label="MapQuest">
+					<option value="MapQuest OSM">MapQuest OSM</option>
+					<option value="MapQuest Open Aerial">MapQuest Open Aerial</option>
+				</optgroup>
+				<optgroup label="OpenCycleMap">
+					<option value="OpenCycleMap">OpenCycleMap</option>
+					<option value="OpenCycleMap Transport">Transport</option>
+					<option value="OpenCycleMap Landscape">Landscape</option>
+				</optgroup>
+			</select>
+			<button id="addPredefinedLayerButton">Add Predefined Layer</button>
 		</div>
 	</div>
 	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
