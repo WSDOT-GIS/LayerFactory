@@ -79,13 +79,13 @@
 				@param {jQuery} sender
 				*/
 				stop: function (event, ui) {
-					var layer = ui.item.layerListItem("option", "layer"), newPosition = ui.item.prevAll().length;
+					var layer = ui.item.layerListItem("option", "layer"), newPosition = ui.item.nextAll().length;
 					map.reorderLayer(layer, newPosition);
 				}
 			}).disableSelection();
 
 			dojo.connect(map, "onLayerAdd", function (layer) {
-				$("<li>").appendTo($this._list).layerListItem({ layer: layer, layerList: $this });
+				$("<li>").prependTo($this._list).layerListItem({ layer: layer, layerList: $this });
 			});
 
 
