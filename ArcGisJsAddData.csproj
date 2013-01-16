@@ -47,6 +47,7 @@
     <Content Include="script\wsdot\LayerFactory.js" />
     <None Include="README.md" />
     <Content Include="script\index.js" />
+    <Content Include="script\wsdot\LayerList.js" />
     <Content Include="style\index.css" />
   </ItemGroup>
   <ItemGroup>
