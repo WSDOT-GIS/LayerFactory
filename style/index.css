@@ -9,3 +9,12 @@
 	right: 0;
 	z-index: 1;
 }
+
+.ui-layer-list li {
+	list-style-type: none;
+}
+
+.ui-layer-list-item-remove-layer-link {
+	text-decoration: none;
+}
+

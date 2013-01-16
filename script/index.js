@@ -18,7 +18,10 @@
 			basemap: "topo"
 		});
 
-		layerList = $("<div>").layerList({ map: map }).dialog();
+		layerList = $("<div>").layerList({ map: map }).dialog({
+			title: "Layers",
+			autoOpen: false
+		});
 
 		// If possible, get the client's current location and zoom the map.
 		if (navigator.geolocation) {

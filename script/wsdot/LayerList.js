@@ -12,6 +12,8 @@
 		_create: function () {
 			var $this = this;
 
+			$this.element.addClass("ui-layer-list-item");
+
 			// Create a checkbox that will turn the layer on and off.
 			$("<input type='checkbox'>").prop("checked", $this.options.layer.visible).appendTo($this.element).click(function () {
 				if (this.checked === true) {
@@ -22,7 +24,7 @@
 			});
 			// Label the checkbox with the ID of the layer.
 			$("<label>").text($this.options.layer.id).appendTo($this.element);
-			$("<a href='#' title='remove layer'>").text("X").appendTo($this.element).click(function () {
+			$("<a href='#' title='remove layer' class='ui-layer-list-item-remove-layer-link'>").text("×").appendTo($this.element).click(function () {
 				// Remove the layer from the map.
 				$this.options.layerList.options.map.removeLayer($this.options.layer);
 				// Remove this control from its parent.
@@ -38,7 +40,7 @@
 			return this;
 		},
 		_destroy: function () {
-			// $.Widget.prototype.destroy.apply(this, arguments);
+			$this.element.removeClass("ui-layer-list-item");
 			this._super();
 			return this;
 		}
@@ -59,6 +61,8 @@
 			if (!$this.options.map) {
 				throw new Error("Map option not specified.");
 			}
+
+			$this.element.addClass("ui-layer-list");
 			map = $this.options.map;
 
 			$this._list = $("<ul>");
@@ -74,6 +78,8 @@
 		_setOption: function (key, value) {
 			var $this = this;
 			// Put custom code here
+			$this.element.removeClass("ui-layer-list");
+
 			$this._super();
 			return this;
 		},
