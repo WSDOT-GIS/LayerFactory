@@ -14,14 +14,19 @@
 	list-style-type: none;
 }
 
-.ui-layer-list-item-remove-layer-link {
-	text-decoration: none;
+.ui-layer-list-item-tools {
+	display: inline;
 	position: absolute;
 	right: 0;
 	padding-right: 0.5em;
 	visibility: hidden;
 }
-.ui-layer-list-item:hover .ui-layer-list-item-remove-layer-link {
+
+.ui-layer-list-item-tools a {
+	text-decoration: none;
+}
+
+.ui-layer-list-item:hover .ui-layer-list-item-tools {
 	visibility: visible;
 }
 

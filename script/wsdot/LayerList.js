@@ -10,7 +10,7 @@
 		},
 		/** Mandatory method - automatically called by jQuery Mobile to initialise the widget. */
 		_create: function () {
-			var $this = this;
+			var $this = this, perLayerTools;
 
 			$this.element.addClass("ui-layer-list-item");
 
@@ -24,7 +24,10 @@
 			});
 			// Label the checkbox with the ID of the layer.
 			$("<label>").text($this.options.layer.id).appendTo($this.element);
-			$("<a href='#' title='remove layer' class='ui-layer-list-item-remove-layer-link'>").text("×").appendTo($this.element).click(function () {
+
+			perLayerTools = $("<div class='ui-layer-list-item-tools'>").appendTo($this.element);
+
+			$("<a href='#' title='remove layer' class='ui-layer-list-item-remove-layer-link'>").text("×").appendTo(perLayerTools).click(function () {
 				// Remove the layer from the map.
 				$this.options.layerList.options.map.removeLayer($this.options.layer);
 				// Remove this control from its parent.
