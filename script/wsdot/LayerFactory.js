@@ -69,7 +69,10 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 				} else if (featureLayerRe.test(url)) {
 					require(["esri/layers/FeatureLayer"], function () {
 						var layer;
-						layer = new esri.layers.FeatureLayer(url);
+						layer = new esri.layers.FeatureLayer(url, options.options || {
+							infoTemplate: new esri.InfoTemplate("Attributes", "${*}"),
+							outFields: ["*"]
+						});
 						self._triggerLayerCreate(layer);
 					});
 				} else if (imageServerRe.test(url)) {
