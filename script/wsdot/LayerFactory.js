@@ -27,7 +27,20 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 		* @param {String} [options.type] The name of the type, for situations where the type cannot be determined by a URL, or if a URL is not required (e.g., OpenStreetMapLayer.).
 		*/
 		createLayer: function (options) {
-			var self = this, mapServerRe, featureLayerRe, imageServerRe, url;
+			var self = this, mapServerRe, featureLayerRe, imageServerRe, url, layerOptions = options.options || {};
+
+			/**
+			Extracts the name of a map service from its URL.
+			@param {String} url
+			@returns {String}
+			*/
+			function getMapNameFromUrl(url) {
+				var arcgisRe = /services\/(.+)\/\w+Server/i, name, match;
+				match = url.match(arcgisRe);
+				if (match) {
+					name = match[1]; // The captured name part of the URL.
+				}
+			}
 
 			if (options.url) {
 				url = options.url;
@@ -40,6 +53,9 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 				// Create a different layer type based on the URL.
 				if (mapServerRe.test(url)) {
 					// Query the map service to see if it is a tiled map service. (We cannot determine this based on the URL alone.)
+					if (!layerOptions.id) {
+						layerOptions.id = getMapNameFromUrl(url);
+					}
 					esri.request({
 						url: url,
 						content: {
@@ -52,14 +68,14 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 							// Create a tile map service layer.
 							require(["esri/layers/agstiled"], function () {
 								var layer;
-								layer = new esri.layers.ArcGISTiledMapServiceLayer(url);
+								layer = new esri.layers.ArcGISTiledMapServiceLayer(url, layerOptions);
 								self._triggerLayerCreate(layer);
 							});
 						} else {
 							// Create a dynamic map service layer.
 							require(["esri/layers/agsdynamic"], function () {
 								var layer;
-								layer = new esri.layers.ArcGISDynamicMapServiceLayer(url);
+								layer = new esri.layers.ArcGISDynamicMapServiceLayer(url, layerOptions);
 								self._triggerLayerCreate(layer);
 							});
 						}
@@ -69,16 +85,13 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 				} else if (featureLayerRe.test(url)) {
 					require(["esri/layers/FeatureLayer"], function () {
 						var layer;
-						layer = new esri.layers.FeatureLayer(url, options.options || {
-							infoTemplate: new esri.InfoTemplate("Attributes", "${*}"),
-							outFields: ["*"]
-						});
+						layer = new esri.layers.FeatureLayer(url, layerOptions);
 						self._triggerLayerCreate(layer);
 					});
 				} else if (imageServerRe.test(url)) {
 					require(["esri/layers/agsimageservice"], function () {
 						var layer;
-						layer = new esri.layers.ArcGISImageServiceLayer(url);
+						layer = new esri.layers.ArcGISImageServiceLayer(url, layerOptions);
 						self._triggerLayerCreate(layer);
 					});
 				}
@@ -86,7 +99,7 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 				if (/^OpenStreetMap$/i.test(options.type)) {
 					require(["esri/layers/osm"], function () {
 						var layer;
-						layer = new esri.layers.OpenStreetMapLayer(options.options);
+						layer = new esri.layers.OpenStreetMapLayer(layerOptions);
 						self._triggerLayerCreate(layer);
 					});
 				} else if (/^MapQuest/i.test(options.type)) { // /^MapQuest\s?((O(?:pen)?S(?:treet)?M(?:ap)?)|(Open\s?Aerial))$/i.test(options.type)) {

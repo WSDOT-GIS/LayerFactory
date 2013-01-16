@@ -4,7 +4,7 @@
 	"use strict";
 	/// <reference path="jsapi_vsdoc12_v33.js" />
 	require(["dojo/on", "dojo/dom", "dojo/query", "wsdot/LayerFactory", "esri/map", "dojo/domReady!"], function (on, dom, query, LayerFactory) {
-		var map, agsServiceDialog, agsUrlInput, layerFactory;
+		var map, agsServiceDialog, agsUrlInput, layerFactory, layerList;
 
 		layerFactory = new LayerFactory();
 		on(layerFactory, "layerCreate", function (options) {
@@ -17,6 +17,8 @@
 		map = new esri.Map("map", {
 			basemap: "topo"
 		});
+
+		layerList = $("<div>").layerList({ map: map }).dialog();
 
 		// If possible, get the client's current location and zoom the map.
 		if (navigator.geolocation) {
@@ -76,6 +78,9 @@
 			agsServiceDialog.dialog("close");
 		});
 
+		$("#layersButton").click(function () {
+			layerList.dialog("open");
+		});
 
 	});
 }(jQuery));
