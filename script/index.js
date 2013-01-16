@@ -40,12 +40,6 @@
 			});
 		}
 
-
-		////agsServiceDialog = new Dialog({
-		////	title: "Add a map service",
-		////	content: dom.byId("dialog")
-		////});
-
 		agsServiceDialog = $("#dialog").dialog({
 			title: "Add a map service",
 			autoOpen: false

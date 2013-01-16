@@ -16,5 +16,12 @@
 
 .ui-layer-list-item-remove-layer-link {
 	text-decoration: none;
+	position: absolute;
+	right: 0;
+	padding-right: 0.5em;
+	visibility: hidden;
+}
+.ui-layer-list-item:hover .ui-layer-list-item-remove-layer-link {
+	visibility: visible;
 }
 

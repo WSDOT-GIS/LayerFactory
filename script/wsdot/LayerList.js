@@ -65,10 +65,27 @@
 			$this.element.addClass("ui-layer-list");
 			map = $this.options.map;
 
-			$this._list = $("<ul>");
+			// Create the list and make it sortable.
+			// TODO: Layers should be listed in reverse order.  Layer at top of list should be the one on top of all layers in the map.
+			$this._list = $("<ul>").appendTo($this.element).sortable({
+				/**
+				@param {Event} event
+				@param {Object} ui
+				@param {jQuery} helper
+				@param {jQuery} item
+				@param {Object} offset
+				@param {Object} position
+				@param {Object} originalPosition
+				@param {jQuery} sender
+				*/
+				stop: function (event, ui) {
+					var layer = ui.item.layerListItem("option", "layer"), newPosition = ui.item.prevAll().length;
+					map.reorderLayer(layer, newPosition);
+				}
+			}).disableSelection();
 
 			dojo.connect(map, "onLayerAdd", function (layer) {
-				$("<li>").appendTo($this.element).layerListItem({ layer: layer, layerList: $this });
+				$("<li>").appendTo($this._list).layerListItem({ layer: layer, layerList: $this });
 			});
 
 
