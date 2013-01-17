@@ -8,7 +8,7 @@
 			layer: null
 		},
 		_create: function () {
-			var $this = this, layer;
+			var $this = this, layer, layerInfoList, i, l, layerInfo;
 
 			if (!$this.options.layer) {
 				throw new Error("The 'layer' option was not defined.");
@@ -26,6 +26,20 @@
 					layer.setOpacity(ui.value);
 				}
 			}).appendTo($this.element);
+
+			console.debug(layer.layerInfos);
+
+			// Add layer infos
+			if (layer.layerInfos) {
+				if (layer.layerInfos.length) {
+					layerInfoList = $("<ol>").appendTo($this.element);
+
+					for (i = 0, l = layer.layerInfos.length; i < l; i++) {
+						layerInfo = layer.layerInfos[i];
+						$("<li>").text(layerInfo.name).appendTo(layerInfoList);
+					}
+				}
+			}
 
 			return this;
 		},
@@ -70,6 +84,7 @@
 					layer: $this.options.layer
 				}).dialog({
 					title: "Layer Options",
+					modal: true,
 					close: function () {
 						$(this).remove();
 					}
