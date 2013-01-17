@@ -27,6 +27,11 @@
 
 			perLayerTools = $("<div class='ui-layer-list-item-tools'>").appendTo($this.element);
 
+			$("<a href='#' title='layer options' class='ui-layer-list-item-options-link'>").text("…").appendTo(perLayerTools).click(function () {
+				return false;
+			});
+
+			// Create the layer remove link.
 			$("<a href='#' title='remove layer' class='ui-layer-list-item-remove-layer-link'>").text("×").appendTo(perLayerTools).click(function () {
 				// Remove the layer from the map.
 				$this.options.layerList.options.map.removeLayer($this.options.layer);
@@ -34,6 +39,8 @@
 				$($this.element).remove();
 				return false;
 			});
+
+
 			return this;
 		},
 		_setOption: function (key, value) {
@@ -70,7 +77,7 @@
 
 			// Create the list and make it sortable.
 			// TODO: Layers should be listed in reverse order.  Layer at top of list should be the one on top of all layers in the map.
-			$this._list = $("<ul>").appendTo($this.element).sortable({
+			$this._list = $("<ul>").addClass("ui-helper-reset").appendTo($this.element).sortable({
 				/**
 				@param {Event} event
 				@param {Object} ui
@@ -88,7 +95,7 @@
 			}).disableSelection();
 
 			dojo.connect(map, "onLayerAdd", function (layer) {
-				$("<li>").prependTo($this._list).layerListItem({ layer: layer, layerList: $this });
+				$("<li>").addClass("ui-heler-reset").prependTo($this._list).layerListItem({ layer: layer, layerList: $this });
 			});
 
 
