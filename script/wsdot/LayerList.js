@@ -3,6 +3,44 @@
 (function ($) {
 	"use strict";
 
+	$.widget("ui.layerOptions", {
+		options: {
+			layer: null
+		},
+		_create: function () {
+			var $this = this, layer;
+
+			if (!$this.options.layer) {
+				throw new Error("The 'layer' option was not defined.");
+			}
+
+			layer = $this.options.layer;
+
+			// Create the opacity slider
+			$("<div title='layer opacity'>").slider({
+				min: 0,
+				max: 1,
+				step: 0.1,
+				value: layer.opacity,
+				slide: function (event, ui) {
+					layer.setOpacity(ui.value);
+				}
+			}).appendTo($this.element);
+
+			return this;
+		},
+		_setOption: function (key, value) {
+			var $this = this;
+			// Put custom code here
+			$this._super();
+			return this;
+		},
+		_destroy: function () {
+			this._super();
+			return this;
+		}
+	});
+
 	$.widget("ui.layerListItem", {
 		options: {
 			layer: null,
@@ -28,6 +66,14 @@
 			perLayerTools = $("<div class='ui-layer-list-item-tools'>").appendTo($this.element);
 
 			$("<a href='#' title='layer options' class='ui-layer-list-item-options-link'>").text("…").appendTo(perLayerTools).click(function () {
+				$("<div>").layerOptions({
+					layer: $this.options.layer
+				}).dialog({
+					title: "Layer Options",
+					close: function () {
+						$(this).remove();
+					}
+				});
 				return false;
 			});
 
@@ -50,7 +96,7 @@
 			return this;
 		},
 		_destroy: function () {
-			$this.element.removeClass("ui-layer-list-item");
+			this.element.removeClass("ui-layer-list-item");
 			this._super();
 			return this;
 		}
@@ -76,7 +122,7 @@
 			map = $this.options.map;
 
 			// Create the list and make it sortable.
-			// TODO: Layers should be listed in reverse order.  Layer at top of list should be the one on top of all layers in the map.
+			// Layers should be listed in reverse order.  Layer at top of list should be the one on top of all layers in the map.
 			$this._list = $("<ul>").addClass("ui-helper-reset").appendTo($this.element).sortable({
 				/**
 				@param {Event} event
