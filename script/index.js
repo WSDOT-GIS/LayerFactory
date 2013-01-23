@@ -18,6 +18,15 @@
 			basemap: "topo"
 		});
 
+        // Show a progress meter when the map is loading data.
+		dojo.connect(map, "onUpdateStart", function () {
+		    $("#mapProgress").show();
+		});
+
+		dojo.connect(map, "onUpdateEnd", function () {
+		    $("#mapProgress").hide();
+		});
+
 		layerList = $("<div>").layerList({ map: map }).dialog({
 			title: "Layers",
 			autoOpen: false
