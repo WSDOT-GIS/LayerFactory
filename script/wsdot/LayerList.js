@@ -72,7 +72,8 @@
 					title: "Layer Options",
 					close: function () {
 						$(this).remove();
-					}
+					},
+                    modal: true
 				});
 				return false;
 			});
