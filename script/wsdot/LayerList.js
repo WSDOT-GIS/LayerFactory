@@ -1,5 +1,6 @@
 ﻿/*global jQuery*/
-/*jslint nomen:true*/
+/*jslint nomen:true, plusplus:true*/
+/*jshint dojo:true*/
 (function ($) {
 	"use strict";
 
@@ -165,12 +166,12 @@
 		_setOption: function (key, value) {
 			var $this = this;
 			// Put custom code here
-			$this.element.removeClass("ui-layer-list");
 
 			$this._super();
 			return this;
 		},
 		_destroy: function () {
+			this.element.removeClass("ui-layer-list");
 			this._list.remove();
 			this._super();
 			return this;
