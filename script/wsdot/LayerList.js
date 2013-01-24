@@ -82,11 +82,10 @@
 					layer: $this.options.layer
 				}).dialog({
 					title: "Layer Options",
-					modal: true,
 					close: function () {
 						$(this).remove();
 					},
-                    modal: true
+					modal: true
 				});
 				return false;
 			});
@@ -154,7 +153,7 @@
 				}
 			}).disableSelection();
 
-            // esri.Map does not support dojo/Evented as of v 3.3.  Must use dojo.connect until then.
+			// esri.Map does not support dojo/Evented as of v 3.3.  Must use dojo.connect until then.
 			dojo.connect(map, "onLayerAdd", function (layer) {
 				$("<li>").addClass("ui-heler-reset").prependTo($this._list).layerListItem({ layer: layer, layerList: $this });
 			});

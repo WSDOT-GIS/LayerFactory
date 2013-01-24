@@ -41,13 +41,13 @@
 			]
 		});
 
-        // Show a progress meter when the map is loading data.
+		// Show a progress meter when the map is loading data.
 		dojo.connect(map, "onUpdateStart", function () {
-		    $("#mapProgress").show();
+			$("#mapProgress").show();
 		});
 
 		dojo.connect(map, "onUpdateEnd", function () {
-		    $("#mapProgress").hide();
+			$("#mapProgress").hide();
 		});
 
 		layerList = $("<div>").layerList({ map: map }).dialog({
