@@ -27,10 +27,8 @@
 				}
 			}).appendTo($this.element);
 
-			console.debug(layer.layerInfos);
-
 			// Add layer infos
-			if (layer.layerInfos) {
+			if (layer.setVisibleLayers && layer.layerInfos) {
 				if (layer.layerInfos.length) {
 					layerInfoList = $("<ol>").appendTo($this.element);
 
