@@ -46,7 +46,7 @@ define(["require", "dojo/_base/declare", "dojo/Evented", "dojo/io/script"], func
 				url = options.url;
 
 				mapServerRe = /MapServer\/?$/i;
-				featureLayerRe = /((MapServer\/\d+)|(FeatureServer))\/?$/i;
+				featureLayerRe = /((?:Feature)|(?:Map))Server\/\d+\/?$/i;
 				imageServerRe = /ImageServer\/?/i;
 
 

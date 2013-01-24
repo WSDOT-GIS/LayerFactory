@@ -3,7 +3,7 @@
 (function ($) {
 	"use strict";
 	/// <reference path="jsapi_vsdoc12_v33.js" />
-	require(["dojo/on", "dojo/dom", "dojo/query", "wsdot/LayerFactory", "esri/map", "dojo/domReady!"], function (on, dom, query, LayerFactory) {
+	require(["dojo/on", "dojo/dom", "wsdot/LayerFactory", "esri/map", "dojo/domReady!"], function (on, dom, LayerFactory) {
 		var map, agsServiceDialog, agsUrlInput, layerFactory, layerList;
 
 		layerFactory = new LayerFactory();
@@ -39,6 +39,15 @@
 				{ "level": 18, "resolution": 0.597164283559817, "scale": 2256.994353 },
 				{ "level": 19, "resolution": 0.298582141647617, "scale": 1128.497176 }
 			]
+		});
+
+        // Show a progress meter when the map is loading data.
+		dojo.connect(map, "onUpdateStart", function () {
+		    $("#mapProgress").show();
+		});
+
+		dojo.connect(map, "onUpdateEnd", function () {
+		    $("#mapProgress").hide();
 		});
 
 		layerList = $("<div>").layerList({ map: map }).dialog({
