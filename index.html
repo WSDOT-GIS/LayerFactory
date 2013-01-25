@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 	<title>Add data demo</title>
-	<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css" />
-	<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" />
+	<link rel="stylesheet" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dijit/themes/claro/claro.css">
+	<link rel="stylesheet" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css" />
+	<link href="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/themes/base/jquery-ui.css" rel="stylesheet" />
 	
 	<link href="style/index.css" rel="stylesheet" />
 	<script>
@@ -11,16 +12,18 @@
 			packages: [{
 				"name": "wsdot",
 				"location": location.pathname.length = 1 ? "/script/wsdot" : location.pathname.replace(/\/[^/]+$/, "") + "/script/wsdot"
-			}]
+			}],
+			async: true
 		};
 	</script>
-	<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3compact"></script>
+	<script src="//serverapi.arcgisonline.com/jsapi/arcgis/3.3compact"></script>
 </head>
-<body lang="en">
+<body lang="en" class="claro">
 	<div id="map">
 		<div id="tools">
 			<button id="addDataButton">Add Data</button>
 			<button id="layersButton">Layers</button>
+			<button id="agolButton" disabled="disabled">ArcGIS Online</button>
 		</div>
 		<progress id="mapProgress">Updating map...</progress>
 	</div>
@@ -44,9 +47,10 @@
 			<button id="addPredefinedLayerButton">Add Predefined Layer</button>
 		</div>
 	</div>
-	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.min.js"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"></script>
 	<script src="script/wsdot/LayerList.js"></script>
+	<script src="script/FullBrowserPanel.js"></script>
 	<script src="script/index.js"></script>
 </body>
 </html>

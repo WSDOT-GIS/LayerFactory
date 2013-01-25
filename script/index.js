@@ -1,10 +1,17 @@
 ﻿/*global require, esri, jQuery*/
 /*jslint browser:true*/
+/*jshint dojo:true*/
+/// <reference path="jsapi_vsdoc12_v33.js" />
 (function ($) {
 	"use strict";
-	/// <reference path="jsapi_vsdoc12_v33.js" />
-	require(["dojo/on", "dojo/dom", "wsdot/LayerFactory", "esri/map", "dojo/domReady!"], function (on, dom, LayerFactory) {
-		var map, agsServiceDialog, agsUrlInput, layerFactory, layerList;
+	require([
+		"dojo/on",
+		"dojo/dom",
+		"wsdot/LayerFactory",
+		"esri/arcgis/Portal",
+		"esri/IdentityManager",
+		"esri/map"], function (on, dom, LayerFactory, Portal, idManager) {
+		var map, agsServiceDialog, agsUrlInput, layerFactory, layerList, portal;
 
 		layerFactory = new LayerFactory();
 		on(layerFactory, "layerCreate", function (options) {
@@ -13,6 +20,8 @@
 				map.addLayer(layer);
 			}
 		});
+
+		////$("<div>").fullBrowserPanel();
 
 		map = new esri.Map("map", {
 			basemap: "topo",
@@ -108,6 +117,34 @@
 		$("#layersButton").click(function () {
 			layerList.dialog("open");
 		});
+
+		portal = new Portal.Portal("http://wsdot.maps.arcgis.com");
+
+		on(portal, "ready", function (p) {
+			$("#agolButton").attr("disabled", null).click(function () {
+				var user;
+
+				function beginQuery() {
+					portal.queryItems({
+						q: "type:Map Service"
+					}).then(function (result) {
+						console.debug(result);
+					});
+				}
+
+				user = portal.getPortalUser();
+				if (!user.credential) {
+					portal.signIn().then(function (loggedInUser) {
+						user = loggedInUser;
+
+						beginQuery();
+					});
+				} else {
+					beginQuery();
+				}
+			});
+		});
+
 
 	});
 }(jQuery));
