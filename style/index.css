@@ -31,8 +31,12 @@
 }
 
 #map progress {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    z-index: 31;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	z-index: 31;
+}
+
+.agol-browser > form > input {
+	width: 100%
 }
