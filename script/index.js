@@ -119,7 +119,15 @@
 			if (!agolBrowser) {
 				// Create the AGOL Browser widget.
 				$("<div>").agolBrowser({
-					portalUrl: [location.protocol, "wsdot.maps.arcgis.com"].join("//")
+					// Get IdentityManager from Local Storage if possible. Using != instead of !== is intentional here: checking for both null AND undefined.
+					id: localStorage != null && localStorage.agolId != null ? localStorage.agolId : null,
+					portalUrl: [location.protocol, "wsdot.maps.arcgis.com"].join("//"),
+					signin: function (event, data) {
+						// When sign in has completed, store IdentityManager initialization JSON in localStorage.
+						if (data.id && localStorage) {
+							localStorage.setItem("agolId", JSON.stringify(data.id));
+						}
+					}
 				}).dialog({
 					title: "ArcGIS Online"
 				});

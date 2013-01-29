@@ -44,7 +44,6 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="script\agolBrowser.js" />
-    <Content Include="script\FullBrowserPanel.js" />
     <Content Include="script\jsapi_vsdoc12_v33.js" />
     <Content Include="script\wsdot\LayerFactory.js" />
     <None Include="README.md" />

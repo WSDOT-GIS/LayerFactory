@@ -40,3 +40,11 @@
 .agol-browser > form > input {
 	width: 100%
 }
+
+.agol-results td {
+	border-bottom: solid 1px #808080;
+}
+
+.agol-results img {
+	vertical-align: text-top;
+}
