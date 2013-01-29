@@ -3,6 +3,14 @@
 
 Demonstrates a method for allowing the user to add data to a map.
 
+## Notes ##
+
+### AGS query ###
+This is what the ArcGIS Online site uses to query "Boundaries" from a group.
+```
+q=(Boundaries AND accountid:<Account ID goes here>)  -type:"Feature Collection" -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Feature Collection" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"
+```
+
 ## License ##
 
 Licensed under [The MIT License](http://opensource.org/licenses/MIT).
